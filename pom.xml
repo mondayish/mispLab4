@@ -8,9 +8,11 @@
     <artifactId>mispLab4</artifactId>
     <version>1.0</version>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>javax.management</groupId>
+            <artifactId>jmx</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -26,7 +26,10 @@ public class ShotCommand implements Command {
             double r = Double.parseDouble(commandArgs[2]);
             boolean result = AreaUtils.getResultOfShot(x, y, r);
             System.out.println(MessageUtils.getMessage(COMMAND_RESULT) + result);
-            shotManager.addShotToHistory(new Shot(x, y, r, result));
+
+            Shot shot = new Shot(x, y, r, result);
+            shotManager.addShotToHistory(shot);
+            shotManager.addShotToMBeans(shot);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
