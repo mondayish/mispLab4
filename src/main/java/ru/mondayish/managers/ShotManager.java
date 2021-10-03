@@ -8,6 +8,9 @@ import ru.mondayish.mbeans.SuccessShotStatMBean;
 import ru.mondayish.model.History;
 import ru.mondayish.model.Shot;
 
+import javax.management.JMException;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,9 +21,22 @@ public class ShotManager {
             Arrays.asList(new ExitCommand(), new HelpCommand(), new HistoryCommand(), new ShotCommand());
     private final History history = new History();
 
-    private final ShotCounterMBean shotCounter = new ShotCounter();
-    private final SuccessShotStatMBean successShotStat = new SuccessShotStat();
+    private ShotCounterMBean shotCounter;
+    private SuccessShotStatMBean successShotStat;
 
+    public void registerMBeans(){
+        shotCounter = new ShotCounter();
+        successShotStat = new SuccessShotStat();
+
+        try {
+            ObjectName shotCounterName = new ObjectName("ru.mondayish.mbeans:type=ShotCounter");
+            ObjectName successShotStatName = new ObjectName("ru.mondayish.mbeans:type=SuccessShotStat");
+            ManagementFactory.getPlatformMBeanServer().registerMBean(shotCounter, shotCounterName);
+            ManagementFactory.getPlatformMBeanServer().registerMBean(successShotStat, successShotStatName);
+        } catch (JMException e){
+            System.out.println("Failed register mbeans");
+        }
+    }
 
     public List<Command> getAvailableCommands() {
         return availableCommands;

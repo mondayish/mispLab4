@@ -8,9 +8,11 @@ public class ConsoleManager {
 
     private final ShotManager shotManager = new ShotManager();
 
-    public void run(){
+    public void run() {
+        shotManager.registerMBeans();
         Scanner scanner = new Scanner(System.in);
-        while (true){
+
+        while (true) {
             String nextLine = scanner.nextLine();
             List<String> commandArgs = new ArrayList<>(Arrays.asList(nextLine.trim().split(" ")));
             String command = commandArgs.get(0);
@@ -18,7 +20,7 @@ public class ConsoleManager {
             String args = String.join(" ", commandArgs);
 
             Optional<Command> optCommand = findCommand(command);
-            if (optCommand.isPresent())  optCommand.get().execute(args, shotManager);
+            if (optCommand.isPresent()) optCommand.get().execute(args, shotManager);
             else System.err.println("Command not found, write help for commands");
         }
     }
